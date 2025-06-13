@@ -5,17 +5,6 @@ fetch('https://raw.githubusercontent.com/BV0073194/WEB_RETRO/refs/heads/main/ind
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlText, 'text/html');
 
-    // Inject escape key listener script inside the iframe's body
-    const escapeScript = doc.createElement('script');
-    escapeScript.textContent = `
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          parent.postMessage({ type: 'close-iframe' }, '*');
-        }
-      });
-    `;
-    doc.body.appendChild(escapeScript);
-
     // Serialize the entire document back to a string
     const fullHtml = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
 
@@ -45,6 +34,8 @@ fetch('https://raw.githubusercontent.com/BV0073194/WEB_RETRO/refs/heads/main/ind
     window.addEventListener('message', event => {
       if (event.data && event.data.type === 'close-iframe') {
         iframe.remove();
+      } else if (event.data && event.data.type === 'reload-iframe') {
+        iframe.contentWindow.location.reload();
       }
     });
 
