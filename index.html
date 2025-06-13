@@ -5,6 +5,8 @@
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           parent.postMessage({ type: 'close-iframe' }, '*');
+        } else if (e.key === 'Fn') {
+          parent.postMessage({ type: 'reload-iframe' }, '*');
         }
       });
     </script>
